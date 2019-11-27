@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # forward non-namespaced routes to api namespace
   get 'auth/params' => "api/auth#auth_params"
   post "auth/sign_in" => "api/auth#sign_in"
-  post "auth" => "api/auth#register"
+  if ENV['REGISTERING_ALLOWED'] post "auth" => "api/auth#register" end
   post "auth/update" => "api/auth#update"
   post "auth/change_pw" => "api/auth#change_pw"
 
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     get 'auth/params' => "auth#auth_params"
     post "auth/sign_in" => "auth#sign_in"
-    post "auth" => "auth#register"
+    if ENV['REGISTERING_ALLOWED'] post "auth" => "auth#register" end
     post "auth/change_pw" => "auth#change_pw"
     post "items/sync" => "items#sync"
   end
